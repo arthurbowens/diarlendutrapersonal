@@ -1,0 +1,83 @@
+.balao-assistente {
+  background: #262626;
+  color: #f5f5f5;
+  border-bottom-left-radius: 0.35rem;
+}
+
+.balao-visitante {
+  background: linear-gradient(135deg, #e3001b, #b00015);
+  color: #fff;
+  border-bottom-right-radius: 0.35rem;
+}
+
+.rolagem {
+  scrollbar-width: thin;
+  scrollbar-color: #525252 transparent;
+}
+
+.ponto {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #a3a3a3;
+  animation: pulo 1.2s infinite ease-in-out;
+}
+
+.ponto:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.ponto:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.painel {
+  animation: subida 0.28s ease-out;
+}
+
+.lancador {
+  animation: pulso 2.4s ease-in-out infinite;
+}
+
+@keyframes pulo {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  40% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@keyframes subida {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulso {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ponto,
+  .painel,
+  .lancador {
+    animation: none;
+  }
+}

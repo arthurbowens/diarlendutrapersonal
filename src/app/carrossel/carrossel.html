@@ -1,0 +1,18 @@
+<p class="mb-4 text-center text-xs font-medium text-suave sm:hidden">Deslize para o lado para ver mais {{ unidade() }}</p>
+<div class="relative sm:px-14">
+  <button type="button" class="seta left-0" [attr.aria-label]="'Voltar: ' + unidade()" [disabled]="indice() === 0" (click)="irPara(trilha, indice() - 1)">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+  </button>
+  <button type="button" class="seta right-0" [attr.aria-label]="'Avançar: ' + unidade()" [disabled]="indice() === total() - 1" (click)="irPara(trilha, indice() + 1)">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+  </button>
+  <div #trilha class="trilha flex snap-x snap-mandatory items-center overflow-x-auto" tabindex="0" role="region" aria-roledescription="carrossel" [attr.aria-label]="rotulo()" (scroll)="acompanhar(trilha)">
+    <ng-content />
+  </div>
+</div>
+<div class="mt-5 flex items-center justify-center gap-2">
+  @for (posicao of posicoes(); track posicao) {
+    <button type="button" class="h-2 cursor-pointer rounded-full transition-all" [class]="posicao === indice() ? 'w-6 bg-destaque' : 'w-2 bg-neutral-600'" [attr.aria-label]="'Ir para ' + (posicao + 1) + ' de ' + total()" [attr.aria-current]="posicao === indice() ? 'true' : null" (click)="irPara(trilha, posicao)"></button>
+  }
+</div>
+<p class="mt-3 text-center text-xs text-suave">{{ indice() + 1 }} / {{ total() }}</p>

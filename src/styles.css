@@ -1,3 +1,68 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "tailwindcss";
+
+@theme {
+  --color-suave: #a3a3a3;
+  --color-destaque: #e3001b;
+  --color-destaque-claro: #ff4256;
+  --font-titulo: "Outfit", system-ui, sans-serif;
+  --font-corpo: "DM Sans", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: var(--font-corpo);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@layer components {
+  .secao {
+    @apply py-20 sm:py-24;
+  }
+
+  .titulo {
+    @apply font-titulo tracking-tight text-balance;
+  }
+
+  .botao {
+    @apply inline-flex items-center justify-center rounded-full bg-destaque px-8 py-4 text-center font-titulo font-semibold text-white shadow-lg shadow-destaque/30 transition hover:bg-red-500;
+  }
+
+  .botao-claro {
+    @apply bg-white px-6 py-3.5 text-sm text-black shadow-xl hover:bg-neutral-200;
+  }
+
+  .botao-pequeno {
+    @apply px-5 py-2.5 text-sm;
+  }
+
+  .moldura {
+    @apply rounded-3xl border border-white/10 bg-neutral-900 p-2 shadow-2xl ring-1 ring-white/5;
+  }
+
+  .marca-check {
+    @apply mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-destaque/20 text-xs text-destaque-claro;
+  }
+
+  .seta {
+    @apply absolute top-1/2 z-10 hidden size-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/15 bg-black/70 backdrop-blur-md transition hover:bg-destaque disabled:pointer-events-none disabled:opacity-30 sm:flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
