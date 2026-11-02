@@ -8,11 +8,10 @@
       <div class="flex shrink-0 items-center gap-3 border-b border-white/10 bg-gradient-to-r from-neutral-900 to-black px-4 py-3">
         <span class="relative shrink-0">
           <img src="img/avatar.jpg" width="44" height="44" alt="" class="size-11 rounded-full object-cover ring-2 ring-destaque/80">
-          <span aria-hidden="true" class="absolute bottom-0 right-0 size-3 rounded-full border-2 border-neutral-950 bg-emerald-400"></span>
         </span>
         <div class="min-w-0 flex-1">
           <p class="truncate text-sm font-semibold">Diarlen Dutra</p>
-          <p class="truncate text-xs text-emerald-400">Assistente virtual</p>
+          <p class="truncate text-xs text-suave">Assistente virtual</p>
         </div>
         <button type="button" aria-label="Fechar conversa" class="flex size-9 cursor-pointer items-center justify-center rounded-full text-suave transition hover:bg-white/10 hover:text-white" (click)="aberto.set(false)">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
@@ -44,13 +43,13 @@
         <div class="shrink-0 border-t border-white/10 bg-black px-3 py-3">
           @if (etapa() === 'fim') {
             <div class="flex flex-col items-center gap-2">
-              <a [href]="linkFinal()" target="_blank" rel="noopener" class="botao botao-pequeno w-full">Enviar para o Diarlen no WhatsApp</a>
+              <a [href]="linkFinal()" target="_blank" rel="noopener" class="botao botao-pequeno w-full">Quero falar com o Diarlen</a>
               <button type="button" class="cursor-pointer text-xs font-medium text-suave transition hover:text-white" (click)="recomecar()">Recomeçar conversa</button>
             </div>
           } @else {
             <div class="flex max-h-[40vh] flex-col gap-2 overflow-y-auto">
               @for (opcao of opcoes(); track opcao) {
-                <button type="button" class="w-full cursor-pointer rounded-xl border border-destaque/40 bg-destaque/10 px-3 py-3 text-left text-sm font-semibold text-red-200 transition hover:border-destaque-claro hover:bg-destaque/20 hover:text-white" (click)="responder(opcao)">{{ opcao }}</button>
+                <button type="button" class="w-full cursor-pointer rounded-xl border border-destaque/40 bg-destaque/10 px-3 py-3 text-left text-sm font-semibold text-neutral-100 transition hover:border-destaque-claro hover:bg-destaque/20 hover:text-white" (click)="responder(opcao)">{{ opcao }}</button>
               }
             </div>
             @if (aceitaTexto()) {
@@ -70,11 +69,10 @@
   <button type="button" aria-controls="assistente-diarlen" [attr.aria-expanded]="aberto()" aria-label="Abrir assistente do Diarlen" class="lancador relative ml-auto flex cursor-pointer items-center gap-2.5 rounded-full border border-destaque-claro/50 bg-destaque py-1.5 pl-1.5 pr-3.5 shadow-[0_8px_28px_rgba(227,0,27,0.45)] transition hover:bg-red-500" (click)="alternar()">
     <span class="relative shrink-0">
       <img src="img/avatar.jpg" width="44" height="44" alt="" class="size-11 rounded-full object-cover ring-2 ring-white/90">
-      <span aria-hidden="true" class="absolute bottom-0 right-0 size-3 rounded-full border-2 border-destaque bg-emerald-400"></span>
     </span>
     <span class="text-left">
-      <span class="block text-[13px] font-bold leading-tight">Diarlen Dutra</span>
-      <span class="block text-[11px] leading-tight text-red-100">Assistente virtual</span>
+      <span class="block text-[13px] font-bold leading-tight">Qual é o seu objetivo?</span>
+      <span class="block text-[11px] leading-tight text-neutral-200">Responda 3 perguntas rápidas</span>
     </span>
   </button>
 </div>

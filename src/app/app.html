@@ -13,8 +13,9 @@
         <a [href]="item.ancora" class="transition-colors hover:text-white">{{ item.rotulo }}</a>
       }
     </div>
-    <a href="#oferta" class="botao botao-pequeno hidden lg:inline-flex">Começar agora</a>
-    <button type="button" class="p-2 lg:hidden" [attr.aria-expanded]="menuAberto()" aria-controls="menu-celular" aria-label="Abrir menu" (click)="menuAberto.set(!menuAberto())">
+    <div class="flex items-center gap-2">
+      <a href="#oferta" class="botao botao-pequeno">Quero começar</a>
+      <button type="button" class="p-2 lg:hidden" [attr.aria-expanded]="menuAberto()" aria-controls="menu-celular" aria-label="Abrir menu" (click)="menuAberto.set(!menuAberto())">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         @if (menuAberto()) {
           <path d="M6 6l12 12M18 6L6 18" />
@@ -23,13 +24,14 @@
         }
       </svg>
     </button>
+    </div>
   </nav>
   @if (menuAberto()) {
     <div id="menu-celular" class="border-t border-white/10 px-4 pb-6 pt-2 lg:hidden">
       @for (item of menu; track item.ancora) {
         <a [href]="item.ancora" class="block border-b border-white/10 py-4 font-medium" (click)="menuAberto.set(false)">{{ item.rotulo }}</a>
       }
-      <a href="#oferta" class="botao mt-6 w-full" (click)="menuAberto.set(false)">Começar agora</a>
+      <a href="#oferta" class="botao mt-6 w-full" (click)="menuAberto.set(false)">Quero meu protocolo</a>
     </div>
   }
 </header>
@@ -38,19 +40,20 @@
   <section id="inicio" class="mx-auto max-w-6xl px-4 pb-20 pt-12 sm:px-6 sm:pt-16 lg:px-8 lg:pb-28 lg:pt-20">
     <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
       <div class="max-w-xl">
-        <p class="mb-4 inline-flex rounded-full border border-destaque/30 bg-destaque/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-destaque-claro">Método DD Performance</p>
-        <h1 class="titulo text-4xl font-extrabold leading-[1.1] sm:text-5xl lg:text-6xl">Transforme seu físico com um <span class="text-destaque-claro">protocolo personalizado</span></h1>
-        <p class="mt-6 text-lg font-medium text-white">Para a sua rotina, seu nível e seu objetivo.</p>
-        <p class="mt-4 text-lg leading-relaxed text-suave">Treino personalizado, acompanhamento pelo aplicativo e orientação profissional para você evoluir com estratégia.</p>
+        <p class="mb-4 inline-flex rounded-full border border-destaque/30 bg-destaque/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-destaque-claro">Método DD Performance · com Diarlen Dutra</p>
+        <h1 class="titulo text-4xl font-extrabold leading-[1.1] sm:text-5xl lg:text-6xl">Pare de improvisar no treino. <span class="text-destaque-claro">Tenha um protocolo feito só para você.</span></h1>
+        <p class="mt-6 text-lg font-medium text-white">Montado para a sua rotina, o seu nível e o seu objetivo.</p>
+        <p class="mt-4 text-lg leading-relaxed text-suave">Quem monta o seu treino é o Diarlen Dutra: personal trainer, preparador físico e atleta campeão. Você abre o aplicativo, sabe exatamente o que fazer e tem suporte para evoluir com estratégia.</p>
         <ul class="mt-8 flex flex-col gap-3 text-sm text-neutral-200 sm:text-base">
           @for (item of destaquesHero; track item) {
             <li class="flex items-start gap-3"><span class="marca-check" aria-hidden="true">✓</span>{{ item }}</li>
           }
         </ul>
         <div class="mt-10 flex flex-wrap items-center gap-5">
-          <a href="#oferta" class="botao botao-claro">Conhecer o Método</a>
+          <a href="#oferta" class="botao botao-pulso w-full sm:w-auto">Quero meu protocolo personalizado</a>
           <a href="#como-funciona" class="text-sm font-medium text-suave underline-offset-4 transition hover:text-white hover:underline">Ver como funciona</a>
         </div>
+        <p class="mt-5 text-sm text-suave">R$ 250,00/mês · Treino e suporte pelo aplicativo · CREF {{ contato.cref }}</p>
       </div>
       <div class="moldura lg:justify-self-end">
         <img src="img/hero-foto.jpg" alt="Diarlen Dutra em pose de duplo bíceps sobre fundo preto e vermelho" width="941" height="1176" fetchpriority="high" class="w-full rounded-2xl lg:max-w-md xl:max-w-lg">
@@ -60,16 +63,16 @@
 
   <section id="diarlen" class="secao border-t border-white/5 bg-neutral-900/40">
     <div class="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-      <h2 class="titulo text-3xl font-bold sm:text-4xl">Diarlen Dutra. Técnica na prática</h2>
-      <p class="mt-3 text-sm font-semibold uppercase tracking-wide text-destaque-claro">Team</p>
+      <h2 class="titulo text-3xl font-bold sm:text-4xl">Quem monta o seu treino sabe o que é chegar ao palco</h2>
+      <p class="mt-3 text-sm font-semibold uppercase tracking-wide text-destaque-claro">Diarlen Dutra · Técnica na prática</p>
       <div class="mt-8 space-y-6 text-left text-lg leading-relaxed text-suave">
-        <p>Personal trainer, preparador físico e atleta. Uma visão construída entre estudo, experiência prática e vivência de competição.</p>
-        <p>O Método DD Performance transforma esse repertório em um protocolo individual, criado para ajudar cada aluno a treinar com mais direção, segurança e consistência.</p>
+        <p>Personal trainer, preparador físico e atleta. O que ele aplica no seu treino vem de estudo, experiência prática e vivência de competição, não de ficha copiada da internet.</p>
+        <p>O Método DD Performance transforma esse repertório em um protocolo individual, para você treinar com mais direção, segurança e consistência.</p>
       </div>
     </div>
 
     <div class="mx-auto mt-16 max-w-5xl px-4 sm:px-6 lg:px-8">
-      <h3 class="titulo text-center text-2xl font-bold">Premiações</h3>
+      <h3 class="titulo text-center text-2xl font-bold">Campeão em quatro anos seguidos</h3>
       <ol class="mt-8 grid gap-6 sm:grid-cols-2">
         @for (periodo of premiacoes; track periodo.ano) {
           <li class="rounded-2xl border border-white/5 bg-white/5 p-6 sm:p-8">
@@ -95,15 +98,16 @@
           <img src="img/diarlen-colagem.jpg" alt="Montagem de Diarlen Dutra em poses de competição" width="941" height="1176" loading="lazy" class="aspect-[4/5] w-full rounded-2xl object-cover">
         </div>
       </div>
+      <div class="mt-10 text-center"><a href="#oferta" class="botao w-full sm:w-auto">Quero treinar com o Diarlen</a></div>
     </div>
   </section>
 
   <section id="aplicativo" class="secao border-t border-white/5 bg-black">
     <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
       <div class="mx-auto mb-10 max-w-2xl text-center">
-        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-destaque-claro">Aplicativo</p>
-        <h2 class="titulo text-3xl font-bold sm:text-4xl">Seu treino e seu acompanhamento sempre com você</h2>
-        <p class="mt-4 text-lg text-suave">Acesse os exercícios, confira séries e repetições, assista aos vídeos, registre cargas e acompanhe sua rotina em um só lugar.</p>
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-destaque-claro">Tudo no aplicativo</p>
+        <h2 class="titulo text-3xl font-bold sm:text-4xl">Chega de chegar na academia sem saber o que fazer</h2>
+        <p class="mt-4 text-lg text-suave">Abra o aplicativo e o seu treino está lá: exercícios, séries, repetições e vídeos. Registre as cargas, acompanhe a rotina e tire dúvidas em um só lugar.</p>
       </div>
       <div class="moldura mx-auto max-w-md">
         <img src="img/app.png" alt="Dois celulares mostrando o aplicativo de treinos" width="1024" height="1024" loading="lazy" class="w-full rounded-2xl">
@@ -113,9 +117,7 @@
           <li class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-neutral-300">{{ recurso }}</li>
         }
       </ul>
-      <div class="mt-10 text-center">
-        <a href="#oferta" class="botao w-full sm:w-auto">Quero treinar com acompanhamento</a>
-      </div>
+      <div class="mt-10 text-center"><a href="#oferta" class="botao w-full sm:w-auto">Quero treinar com acompanhamento</a></div>
     </div>
   </section>
 
@@ -124,9 +126,9 @@
       <div class="mx-auto max-w-2xl text-center">
         <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-destaque-claro">Método DD Performance</p>
         <h2 class="titulo text-3xl font-bold sm:text-4xl">Não é uma ficha. É acompanhamento</h2>
-        <p class="mt-4 text-lg text-suave">Seu treino é desenvolvido considerando quem você é hoje e onde deseja chegar.</p>
+        <p class="mt-4 text-lg text-suave">Uma ficha pronta não sabe quem você é. Seu treino é construído a partir de quem você é hoje e de onde quer chegar, e muda junto com a sua evolução.</p>
       </div>
-      <h3 class="mt-14 text-center text-xs font-semibold uppercase tracking-[0.2em] text-suave">O que está incluído: 10 entregas</h3>
+      <h3 class="mt-14 text-center text-xs font-semibold uppercase tracking-[0.2em] text-suave">Tudo o que você recebe: 10 entregas</h3>
       <ol class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         @for (entrega of entregas; track entrega; let i = $index) {
           <li class="flex flex-col rounded-3xl border border-white/10 bg-neutral-900/50 p-6 transition hover:border-destaque/40 hover:bg-neutral-900">
@@ -136,16 +138,14 @@
         }
       </ol>
       <p class="mt-5 text-center text-sm text-suave">*Comunidade e benefício nos e-books dependem de confirmação final.</p>
-      <div class="mt-10 text-center">
-        <a href="#oferta" class="botao w-full sm:w-auto">Conhecer o Método</a>
-      </div>
+      <div class="mt-10 text-center"><a href="#oferta" class="botao w-full sm:w-auto">Quero receber tudo isso</a></div>
     </div>
   </section>
 
   <section id="como-funciona" class="secao border-y border-white/5 bg-neutral-900/30">
     <div class="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
       <div>
-        <h2 class="titulo text-3xl font-bold sm:text-4xl">Como funciona</h2>
+        <h2 class="titulo text-3xl font-bold sm:text-4xl">Começar é simples. Veja o passo a passo</h2>
         <ol class="mt-10 space-y-6">
           @for (etapa of etapas; track etapa.titulo; let i = $index) {
             <li class="flex gap-4">
@@ -157,6 +157,7 @@
             </li>
           }
         </ol>
+        <a href="#oferta" class="botao mt-10 w-full sm:w-auto">Quero dar o primeiro passo</a>
       </div>
       <div class="moldura">
         <img src="img/diarlen-pose.jpg" alt="Diarlen Dutra em pose de perfil sobre fundo preto" width="927" height="971" loading="lazy" class="w-full rounded-2xl">
@@ -168,9 +169,9 @@
     <div class="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
       <div>
         <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-destaque-claro">Para quem é</p>
-        <h2 class="titulo text-3xl font-bold sm:text-4xl">Seu objetivo. Um plano à altura</h2>
-        <p class="mt-4 text-lg leading-relaxed text-suave">O Método DD Performance é para quem decidiu parar de improvisar e quer evoluir com técnica, constância e clareza.</p>
-        <a href="#oferta" class="botao botao-claro mt-8">Conhecer o Método</a>
+        <h2 class="titulo text-3xl font-bold sm:text-4xl">Se você se vê aqui, o método é para você</h2>
+        <p class="mt-4 text-lg leading-relaxed text-suave">É para quem decidiu parar de improvisar e quer evoluir com técnica, constância e clareza. Qual é o seu objetivo?</p>
+        <a href="#oferta" class="botao mt-8 w-full sm:w-auto">Esse é o meu objetivo</a>
       </div>
       <ul class="grid gap-4 rounded-3xl border border-destaque/25 bg-gradient-to-br from-destaque/10 to-black p-8 text-sm leading-relaxed text-neutral-300 sm:grid-cols-2 sm:p-10">
         @for (objetivo of objetivos; track objetivo) {
@@ -184,7 +185,7 @@
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-2xl text-center">
         <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-destaque-claro">Antes x depois</p>
-        <h2 class="titulo text-3xl font-bold sm:text-4xl">Os resultados dos nossos alunos falam por si</h2>
+        <h2 class="titulo text-3xl font-bold sm:text-4xl">Eles pararam de improvisar. Veja o que mudou</h2>
       </div>
       <div class="mx-auto mt-12 max-w-sm sm:max-w-lg">
         <app-carrossel [total]="resultados.length" rotulo="Fotos de antes e depois dos alunos" unidade="resultados">
@@ -197,6 +198,7 @@
           }
         </app-carrossel>
         <p class="mt-3 text-center text-sm text-suave">Os resultados variam de pessoa para pessoa.</p>
+        <div class="mt-8 text-center"><a href="#oferta" class="botao w-full sm:w-auto">Quero começar a minha evolução</a></div>
       </div>
     </div>
   </section>
@@ -204,8 +206,8 @@
   <section id="depoimentos" class="secao bg-black">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-2xl text-center">
-        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-destaque-claro">Método DD Performance</p>
-        <h2 class="titulo text-3xl font-bold sm:text-4xl">Veja o que alguns alunos nos enviaram no WhatsApp</h2>
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-destaque-claro">Direto do WhatsApp</p>
+        <h2 class="titulo text-3xl font-bold sm:text-4xl">Não é o Diarlen quem diz. São os alunos</h2>
       </div>
       <div class="mx-auto mt-12 max-w-sm sm:max-w-lg">
         <app-carrossel [total]="depoimentos.length" rotulo="Mensagens de alunos no WhatsApp" unidade="depoimentos">
@@ -217,28 +219,7 @@
             </figure>
           }
         </app-carrossel>
-      </div>
-    </div>
-  </section>
-
-  <section id="ebook" class="secao border-y border-white/5 bg-neutral-900/30">
-    <div class="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
-      <div>
-        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-destaque-claro">E-book</p>
-        <h2 class="titulo text-3xl font-bold sm:text-4xl">O guia definitivo da musculação</h2>
-        <p class="mt-4 text-lg leading-relaxed text-suave">O Guia Definitivo da Musculação, de Diarlen Dutra, coloca hipertrofia, emagrecimento e bodybuilding em foco, com estratégia, disciplina e constância como pilares na busca por resultados.</p>
-        <ul class="mt-8 space-y-4 text-sm text-neutral-300 sm:text-base">
-          @for (ponto of pontosEbook; track ponto.titulo) {
-            <li class="flex items-start gap-3">
-              <span class="marca-check" aria-hidden="true">✓</span>
-              <span><strong class="font-semibold text-neutral-100">{{ ponto.titulo }}:</strong>&ngsp;{{ ponto.texto }}</span>
-            </li>
-          }
-        </ul>
-        <a [href]="contato.ebook" target="_blank" rel="noopener" class="botao mt-10">Quero adquirir o e-book</a>
-      </div>
-      <div class="rounded-3xl border border-white/10 bg-neutral-900 p-8 shadow-2xl ring-1 ring-white/5">
-        <img src="img/ebook.png" alt="Capa do livro O Guia Definitivo da Musculação, de Diarlen Dutra" width="819" height="1024" loading="lazy" class="mx-auto w-full max-w-xs">
+        <div class="mt-8 text-center"><a href="#oferta" class="botao w-full sm:w-auto">Quero esse acompanhamento</a></div>
       </div>
     </div>
   </section>
@@ -246,9 +227,9 @@
   <section id="oferta" class="secao">
     <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
       <div class="text-center">
-        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-destaque-claro">Oferta especial</p>
-        <h2 class="titulo text-3xl font-bold sm:text-4xl">Acelere seus resultados</h2>
-        <p class="mt-4 text-lg text-suave">Treinamento completo com suporte exclusivo para a sua evolução.</p>
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-destaque-claro">Comece agora</p>
+        <h2 class="titulo text-3xl font-bold sm:text-4xl">Tudo isso para você parar de improvisar</h2>
+        <p class="mt-4 text-lg text-suave">Treinamento completo, feito para você, com suporte e acompanhamento do início ao próximo passo.</p>
       </div>
       <div class="mt-10 rounded-3xl border border-destaque/25 bg-gradient-to-br from-destaque/10 to-black p-8 sm:p-10">
         <ul class="grid gap-4 text-sm text-neutral-300 sm:grid-cols-2">
@@ -259,16 +240,40 @@
         <div class="mt-8 border-t border-white/10 pt-6 text-center">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-suave">Investimento</p>
           <p class="mt-2"><span class="titulo text-5xl font-extrabold">R$ 250,00</span>&ngsp;<span class="text-suave">/mês</span></p>
+          <p class="mt-2 text-sm font-medium text-neutral-200">Menos de R$ 9 por dia para treinar com direção.</p>
         </div>
-        <a [href]="linkContratar" target="_blank" rel="noopener" class="botao mt-6 w-full">Quero começar agora</a>
-        <p class="mt-4 text-center text-sm text-suave">*Benefício nos e-books depende de confirmação final.</p>
+        <a [href]="linkContratar" target="_blank" rel="noopener" class="botao botao-pulso mt-6 w-full">Quero começar agora</a>
+        <p class="mt-3 text-center text-sm text-neutral-300">Você fala direto com o Diarlen no WhatsApp.</p>
+        <p class="mt-2 text-center text-xs text-suave">*Benefício nos e-books depende de confirmação final.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="ebook" class="secao border-y border-white/5 bg-neutral-900/30">
+    <div class="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
+      <div>
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-destaque-claro">E-book · Ainda não é hora do acompanhamento?</p>
+        <h2 class="titulo text-3xl font-bold sm:text-4xl">O guia definitivo da musculação</h2>
+        <p class="mt-4 text-lg leading-relaxed text-suave">Comece pelo guia do Diarlen: hipertrofia, emagrecimento e bodybuilding em foco, com estratégia, disciplina e constância como pilares na busca por resultados.</p>
+        <ul class="mt-8 space-y-4 text-sm text-neutral-300 sm:text-base">
+          @for (ponto of pontosEbook; track ponto.titulo) {
+            <li class="flex items-start gap-3">
+              <span class="marca-check" aria-hidden="true">✓</span>
+              <span><strong class="font-semibold text-neutral-100">{{ ponto.titulo }}:</strong>&ngsp;{{ ponto.texto }}</span>
+            </li>
+          }
+        </ul>
+        <a [href]="contato.ebook" target="_blank" rel="noopener" class="botao mt-10">Quero o e-book</a>
+      </div>
+      <div class="rounded-3xl border border-white/10 bg-neutral-900 p-8 shadow-2xl ring-1 ring-white/5">
+        <img src="img/ebook.png" alt="Capa do livro O Guia Definitivo da Musculação, de Diarlen Dutra" width="819" height="1024" loading="lazy" class="mx-auto w-full max-w-xs">
       </div>
     </div>
   </section>
 
   <section id="faq" class="secao border-t border-white/5 bg-neutral-900/40">
     <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-      <h2 class="titulo text-center text-3xl font-bold sm:text-4xl">Perguntas frequentes</h2>
+      <h2 class="titulo text-center text-3xl font-bold sm:text-4xl">Antes de começar, você pode estar se perguntando</h2>
       <div class="mt-10 space-y-3">
         @for (item of perguntas; track item.pergunta) {
           <details class="group rounded-2xl border border-white/10 bg-neutral-900/50 px-6 py-5 transition open:border-destaque/40">
@@ -280,16 +285,16 @@
           </details>
         }
       </div>
-      <p class="mt-8 text-center text-suave">Ficou com outra dúvida?&ngsp;<a [href]="linkDuvida" target="_blank" rel="noopener" class="font-semibold text-white underline decoration-destaque decoration-2 underline-offset-4">Fale pelo WhatsApp</a></p>
+      <p class="mt-8 text-center text-suave">Ficou com outra dúvida?&ngsp;<a [href]="linkDuvida" target="_blank" rel="noopener" class="font-semibold text-white underline decoration-destaque decoration-2 underline-offset-4">Chame o Diarlen no WhatsApp</a></p>
     </div>
   </section>
 
   <section id="contato" class="py-20 sm:py-28">
     <div class="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-      <h2 class="titulo text-3xl font-bold sm:text-4xl">Pare de treinar sem direção. Comece um protocolo desenvolvido para o seu objetivo.</h2>
-      <p class="mt-4 text-lg text-suave">Tenha um treinamento personalizado, suporte pelo aplicativo e acompanhamento profissional por R$ 250,00 mensais.</p>
+      <h2 class="titulo text-3xl font-bold sm:text-4xl">Daqui a três meses, você quer estar no mesmo lugar?</h2>
+      <p class="mt-4 text-lg text-suave">Ou quer estar em uma reunião com o Diarlen analisando a sua evolução? Pare de treinar sem direção: treino personalizado, suporte pelo aplicativo e acompanhamento profissional por R$ 250,00 mensais.</p>
       <div class="mt-10 flex flex-col items-center gap-6">
-        <a href="#oferta" class="botao w-full sm:w-auto">Quero iniciar o Método DD Performance</a>
+        <a href="#oferta" class="botao botao-pulso w-full sm:w-auto">Quero iniciar o Método DD Performance</a>
         @if (contato.instagram) {
           <a [href]="'https://instagram.com/' + contato.instagram" target="_blank" rel="noopener" aria-label="Instagram do Diarlen Dutra" class="flex size-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral-300 transition hover:border-destaque/50 hover:text-white">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" /></svg>

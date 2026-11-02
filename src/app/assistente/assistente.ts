@@ -12,10 +12,10 @@ const OPCOES: Record<Etapa, string[]> = {
 };
 
 const PERGUNTAS: Record<Etapa, string> = {
-  objetivo: 'Olá! Seja bem-vindo(a). 👋\n\nSou o assistente virtual do Diarlen Dutra.\n\n1️⃣ Qual é o seu principal objetivo no momento?',
-  dificuldade: 'Boa! 👊\n\n2️⃣ O que mais está dificultando chegar nesse resultado?',
+  objetivo: 'Olá! Que bom ter você aqui. 👋\n\nSou o assistente virtual do Diarlen Dutra. Em 3 perguntas rápidas, preparo o seu contato com ele.\n\n1️⃣ Qual é o seu principal objetivo no momento?',
+  dificuldade: 'Boa escolha! 👊\n\n2️⃣ O que mais está travando você hoje?',
   local: '3️⃣ Onde você treina hoje?',
-  fim: 'Obrigado por responder! 🔥\n\nNo Método DD Performance, o protocolo é individual e o acompanhamento é feito pelo aplicativo, por R$ 250,00 mensais.\n\nToque abaixo para enviar suas respostas ao Diarlen no WhatsApp.',
+  fim: 'Pronto! 🔥\n\nNo Método DD Performance, seu protocolo é individual, feito pelo Diarlen, com suporte pelo aplicativo, por R$ 250,00 mensais.\n\nSuas respostas já estão prontas: é só tocar abaixo e enviar para ele no WhatsApp.',
 };
 
 const PROXIMA: Record<Etapa, Etapa> = { objetivo: 'dificuldade', dificuldade: 'local', local: 'fim', fim: 'fim' };

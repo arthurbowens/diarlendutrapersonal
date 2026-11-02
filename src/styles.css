@@ -5,7 +5,7 @@
 @theme {
   --color-suave: #a3a3a3;
   --color-destaque: #e3001b;
-  --color-destaque-claro: #ff4256;
+  --color-destaque-claro: #ff2a3c;
   --font-titulo: "Outfit", system-ui, sans-serif;
   --font-corpo: "DM Sans", system-ui, sans-serif;
 }
@@ -37,15 +37,28 @@ body {
   }
 
   .botao {
-    @apply inline-flex items-center justify-center rounded-full bg-destaque px-8 py-4 text-center font-titulo font-semibold text-white shadow-lg shadow-destaque/30 transition hover:bg-red-500;
+    @apply inline-flex items-center justify-center gap-3 rounded-full bg-destaque px-8 py-4 text-center font-titulo text-lg font-bold text-white shadow-xl shadow-destaque/40 transition hover:-translate-y-0.5 hover:bg-red-500 hover:shadow-destaque/60;
   }
 
-  .botao-claro {
-    @apply bg-white px-6 py-3.5 text-sm text-black shadow-xl hover:bg-neutral-200;
+  .botao::after {
+    content: "→";
+    transition: transform 0.15s;
+  }
+
+  .botao:hover::after {
+    transform: translateX(4px);
   }
 
   .botao-pequeno {
-    @apply px-5 py-2.5 text-sm;
+    @apply px-4 py-2.5 text-sm;
+  }
+
+  .botao-pequeno::after {
+    content: none;
+  }
+
+  .botao-pulso {
+    animation: pulso-botao 2.2s ease-in-out infinite;
   }
 
   .moldura {
@@ -61,8 +74,22 @@ body {
   }
 }
 
+@keyframes pulso-botao {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(227, 0, 27, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(227, 0, 27, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .botao-pulso {
+    animation: none;
   }
 }

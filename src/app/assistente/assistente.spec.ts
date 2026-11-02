@@ -51,7 +51,7 @@ describe('Assistente', () => {
     await clicarOpcao('Treino em academia');
     await clicarOpcao('Recomeçar conversa');
 
-    expect(elemento.textContent).not.toContain('Obrigado por responder');
+    expect(elemento.textContent).not.toContain('Suas respostas já estão prontas');
     expect(elemento.querySelector('a[href^="https://wa.me/"]')).toBeNull();
     expect(elemento.textContent).toContain('Qual é o seu principal objetivo');
   });

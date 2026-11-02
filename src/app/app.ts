@@ -21,16 +21,17 @@ export class App {
     { rotulo: 'Diarlen Dutra', ancora: '#diarlen' },
     { rotulo: 'O Método', ancora: '#metodo' },
     { rotulo: 'Para quem é', ancora: '#para-quem' },
-    { rotulo: 'Ebook', ancora: '#ebook' },
+    { rotulo: 'Resultados', ancora: '#resultados' },
     { rotulo: 'Investimento', ancora: '#oferta' },
+    { rotulo: 'Ebook', ancora: '#ebook' },
   ];
 
   protected readonly destaquesHero = [
-    'Treinamento personalizado',
-    'Acesso pelo aplicativo',
-    'Suporte pelo aplicativo',
-    'Acompanhamento da evolução',
-    'Reunião on-line a cada 3 meses',
+    'Treino 100% personalizado, sem ficha pronta',
+    'Vídeos que mostram como fazer cada exercício',
+    'Suporte para tirar dúvidas pelo aplicativo',
+    'Ajustes periódicos conforme você evolui',
+    'Reunião on-line com o Diarlen a cada 3 meses',
   ];
 
   protected readonly premiacoes = [
@@ -89,12 +90,12 @@ export class App {
   ];
 
   protected readonly etapas = [
-    { titulo: 'Contratação', texto: 'Você contrata o Método DD Performance pelo valor de R$ 250,00 mensais.' },
-    { titulo: 'Avaliação inicial', texto: 'Você preenche um questionário sobre objetivo, rotina, experiência, disponibilidade e limitações.' },
-    { titulo: 'Recebimento do treinamento', texto: 'O Diarlen desenvolve o protocolo personalizado e disponibiliza o treino pelo aplicativo.' },
-    { titulo: 'Suporte pelo aplicativo', texto: 'Pelo aplicativo você acessa o treinamento, acompanha as orientações e envia suas dúvidas.' },
-    { titulo: 'Reunião trimestral', texto: 'A cada três meses, uma reunião on-line com o Diarlen para analisar sua evolução, alinhar objetivos e definir os próximos passos.' },
-    { titulo: 'Continuidade do acompanhamento', texto: 'O treinamento continua sendo acompanhado e ajustado conforme as condições previstas no plano.' },
+    { titulo: 'Você entra no método', texto: 'Contrata o Método DD Performance por R$ 250,00 mensais.' },
+    { titulo: 'Conta quem você é', texto: 'Responde a um questionário sobre objetivo, rotina, experiência, disponibilidade e limitações.' },
+    { titulo: 'Recebe o seu protocolo', texto: 'O Diarlen desenvolve o seu protocolo personalizado e libera o treino no aplicativo.' },
+    { titulo: 'Treina com suporte', texto: 'Pelo aplicativo você acessa o treino, acompanha as orientações e envia suas dúvidas.' },
+    { titulo: 'Analisa a evolução com o Diarlen', texto: 'A cada três meses, uma reunião on-line para analisar sua evolução, alinhar objetivos e definir os próximos passos.' },
+    { titulo: 'Continua evoluindo', texto: 'Seu treinamento segue acompanhado e ajustado, conforme as condições previstas no plano.' },
   ];
 
   protected readonly depoimentos = [
