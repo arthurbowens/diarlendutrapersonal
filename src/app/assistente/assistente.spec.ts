@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
+import { MockInstance, vi } from 'vitest';
 import { Assistente } from './assistente';
 
 describe('Assistente', () => {
   let fixture: ComponentFixture<Assistente>;
   let elemento: HTMLElement;
+  let abrir: MockInstance<typeof window.open>;
 
   const avancar = async () => {
     await vi.advanceTimersByTimeAsync(2000);
@@ -29,51 +30,58 @@ describe('Assistente', () => {
   const responderTudo = async () => {
     elemento.querySelector<HTMLButtonElement>('.lancador')!.click();
     await avancar();
-    await digitar('Ana');
     await clicar('Ganhar massa muscular');
-    await clicar('Nunca treinei');
-    await clicar('4 dias');
-    await clicar('Treino sem um planejamento');
-    await digitar('Dor no joelho');
+    await digitar('Pressão alta');
+    await clicar('Falta de constância');
+    await digitar('Cirurgia no joelho');
+    await clicar('Alimentação');
   };
 
   const link = () => elemento.querySelector<HTMLAnchorElement>('a[href^="https://wa.me/"]');
 
   beforeEach(async () => {
     vi.useFakeTimers();
+    abrir = vi.spyOn(window, 'open').mockReturnValue({} as Window);
     await TestBed.configureTestingModule({ imports: [Assistente] }).compileComponents();
     fixture = TestBed.createComponent(Assistente);
     elemento = fixture.nativeElement;
     fixture.detectChanges();
   });
 
-  afterEach(() => vi.useRealTimers());
-
-  it('leva nome e respostas, inclusive digitadas, para o link do WhatsApp', async () => {
-    await responderTudo();
-
-    const mensagem = decodeURIComponent(link()!.href);
-    expect(mensagem).toContain('Meu nome é Ana');
-    expect(mensagem).toContain('Objetivo: Ganhar massa muscular');
-    expect(mensagem).toContain('Experiência: Nunca treinei');
-    expect(mensagem).toContain('Dias por semana: 4 dias');
-    expect(mensagem).toContain('Maior dificuldade: Treino sem um planejamento');
-    expect(mensagem).toContain('Lesão ou limitação: Dor no joelho');
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
   });
 
-  it('não aceita nome em branco', async () => {
+  it('abre o WhatsApp com as 5 respostas logo após a última pergunta', async () => {
+    await responderTudo();
+
+    expect(abrir).toHaveBeenCalledTimes(1);
+    const mensagem = decodeURIComponent(abrir.mock.calls[0][0] as string);
+    expect(mensagem).toContain('Objetivo: Ganhar massa muscular');
+    expect(mensagem).toContain('Problema de saúde: Pressão alta');
+    expect(mensagem).toContain('O que impede os resultados: Falta de constância');
+    expect(mensagem).toContain('Lesões passadas: Cirurgia no joelho');
+    expect(mensagem).toContain('O que mudar na rotina: Alimentação');
+  });
+
+  it('não aceita resposta em branco', async () => {
     elemento.querySelector<HTMLButtonElement>('.lancador')!.click();
     await avancar();
     await digitar('   ');
-    expect(elemento.textContent).toContain('como posso chamar você');
-    expect(elemento.textContent).not.toContain('Prazer');
+    expect(elemento.textContent).toContain('Qual é o seu objetivo?');
+    expect(elemento.textContent).not.toContain('Você tem algum problema de saúde?');
   });
 
-  it('responde dúvidas no final sem perder o link', async () => {
-    await responderTudo();
-    await clicar('Qual é o investimento?');
+  it('não abre o WhatsApp antes da última resposta', async () => {
+    elemento.querySelector<HTMLButtonElement>('.lancador')!.click();
+    await avancar();
+    await clicar('Ganhar massa muscular');
+    expect(abrir).not.toHaveBeenCalled();
+  });
 
-    expect(elemento.textContent).toContain('R$ 250,00 por mês');
+  it('mantém um link manual caso o WhatsApp não abra', async () => {
+    await responderTudo();
     expect(link()).not.toBeNull();
   });
 
@@ -82,8 +90,7 @@ describe('Assistente', () => {
     elemento.querySelector<HTMLButtonElement>('[aria-label="Recomeçar conversa"]')!.click();
     await avancar();
 
-    expect(elemento.textContent).not.toContain('Resumo para o Diarlen');
     expect(link()).toBeNull();
-    expect(elemento.textContent).toContain('como posso chamar você');
+    expect(elemento.textContent).toContain('Qual é o seu objetivo?');
   });
 });

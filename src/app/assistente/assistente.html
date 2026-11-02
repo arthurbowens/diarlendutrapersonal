@@ -45,17 +45,6 @@
               </div>
             </div>
           }
-          @if (etapa() === 'fim' && !digitando()) {
-            <dl class="ml-9 rounded-2xl border border-white/10 bg-neutral-900 p-4 text-[13px]">
-              <dt class="mb-3 font-titulo text-sm font-semibold">Resumo para o Diarlen</dt>
-              @for (item of resumo(); track item.rotulo) {
-                <div class="flex justify-between gap-4 border-t border-white/5 py-2">
-                  <span class="shrink-0 text-suave">{{ item.rotulo }}</span>
-                  <span class="break-words text-right font-medium">{{ item.valor }}</span>
-                </div>
-              }
-            </dl>
-          }
         </div>
       </div>
 
@@ -63,14 +52,7 @@
         @if (digitando()) {
           <p class="py-2 text-center text-xs text-suave">A assistente está digitando…</p>
         } @else if (etapa() === 'fim') {
-          @if (duvidas().length) {
-            <div class="rolagem-opcoes -mx-3 mb-3 flex gap-2 overflow-x-auto px-3">
-              @for (duvida of duvidas(); track duvida.pergunta) {
-                <button type="button" class="shrink-0 cursor-pointer rounded-full border border-white/15 px-3 py-2 text-xs font-medium text-neutral-200 transition hover:border-white/40 hover:text-white" (click)="tirarDuvida(duvida)">{{ duvida.pergunta }}</button>
-              }
-            </div>
-          }
-          <a [href]="linkFinal()" target="_blank" rel="noopener" class="botao w-full px-5 py-3.5 text-base">Enviar para o Diarlen</a>
+          <a [href]="linkFinal()" target="_blank" rel="noopener" class="block py-1 text-center text-sm font-semibold underline decoration-destaque decoration-2 underline-offset-4">O WhatsApp não abriu? Toque aqui</a>
         } @else {
           @if (opcoes().length) {
             <p class="mb-2 text-[11px] font-medium uppercase tracking-wider text-suave">Pergunta {{ numeroPergunta() }} de {{ totalPerguntas }}</p>
@@ -82,14 +64,14 @@
           }
           @if (placeholder()) {
             <form class="flex items-center gap-2" [class.mt-2]="opcoes().length" (submit)="enviarTexto($event)">
-              <input #campo type="text" autocomplete="off" maxlength="120" [attr.aria-label]="placeholder()" [placeholder]="placeholder()" class="min-w-0 flex-1 rounded-full border border-white/15 bg-black px-4 py-2.5 text-base outline-none placeholder:text-neutral-500 focus:border-destaque sm:text-sm" [value]="textoLivre()" (input)="textoLivre.set($any($event.target).value)">
+              <input type="text" autocomplete="off" maxlength="120" [attr.aria-label]="placeholder()" [placeholder]="placeholder()" class="min-w-0 flex-1 rounded-full border border-white/15 bg-black px-4 py-2.5 text-base outline-none placeholder:text-neutral-500 focus:border-destaque sm:text-sm" [value]="textoLivre()" (input)="textoLivre.set($any($event.target).value)">
               <button type="submit" aria-label="Enviar" class="flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-destaque transition hover:bg-red-500 disabled:cursor-default disabled:opacity-40" [disabled]="!textoLivre().trim()">
                 <svg class="size-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z" /></svg>
               </button>
             </form>
           }
         }
-        <p class="mt-2.5 text-center text-[11px] leading-snug text-suave">Assistente automática. Suas respostas só são enviadas se você tocar em enviar.</p>
+        <p class="mt-2.5 text-center text-[11px] leading-snug text-suave">Assistente automática. Na última resposta, o WhatsApp abre com tudo pronto para você enviar.</p>
       </div>
     </div>
   } @else {
