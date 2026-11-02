@@ -6,6 +6,7 @@
   --color-suave: #a3a3a3;
   --color-destaque: #e3001b;
   --color-destaque-claro: #ff2a3c;
+  --color-online: #22c55e;
   --font-titulo: "Outfit", system-ui, sans-serif;
   --font-corpo: "DM Sans", system-ui, sans-serif;
 }
@@ -50,7 +51,7 @@ body {
   }
 
   .botao-pequeno {
-    @apply px-4 py-2.5 text-sm;
+    @apply whitespace-nowrap px-4 py-2.5 text-sm;
   }
 
   .botao-pequeno::after {

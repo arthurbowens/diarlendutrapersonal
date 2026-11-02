@@ -11,11 +11,33 @@ describe('Assistente', () => {
     fixture.detectChanges();
   };
 
-  const clicarOpcao = async (texto: string) => {
+  const clicar = async (texto: string) => {
     const botoes = Array.from(elemento.querySelectorAll<HTMLButtonElement>('button'));
     botoes.find((botao) => botao.textContent?.trim() === texto)!.click();
     await avancar();
   };
+
+  const digitar = async (texto: string) => {
+    const campo = elemento.querySelector<HTMLInputElement>('input')!;
+    campo.value = texto;
+    campo.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    elemento.querySelector('form')!.dispatchEvent(new Event('submit', { cancelable: true }));
+    await avancar();
+  };
+
+  const responderTudo = async () => {
+    elemento.querySelector<HTMLButtonElement>('.lancador')!.click();
+    await avancar();
+    await digitar('Ana');
+    await clicar('Ganhar massa muscular');
+    await clicar('Nunca treinei');
+    await clicar('4 dias');
+    await clicar('Treino sem um planejamento');
+    await digitar('Dor no joelho');
+  };
+
+  const link = () => elemento.querySelector<HTMLAnchorElement>('a[href^="https://wa.me/"]');
 
   beforeEach(async () => {
     vi.useFakeTimers();
@@ -27,32 +49,41 @@ describe('Assistente', () => {
 
   afterEach(() => vi.useRealTimers());
 
-  it('leva as respostas das três perguntas para o link do WhatsApp', async () => {
+  it('leva nome e respostas, inclusive digitadas, para o link do WhatsApp', async () => {
+    await responderTudo();
+
+    const mensagem = decodeURIComponent(link()!.href);
+    expect(mensagem).toContain('Meu nome é Ana');
+    expect(mensagem).toContain('Objetivo: Ganhar massa muscular');
+    expect(mensagem).toContain('Experiência: Nunca treinei');
+    expect(mensagem).toContain('Dias por semana: 4 dias');
+    expect(mensagem).toContain('Maior dificuldade: Treino sem um planejamento');
+    expect(mensagem).toContain('Lesão ou limitação: Dor no joelho');
+  });
+
+  it('não aceita nome em branco', async () => {
     elemento.querySelector<HTMLButtonElement>('.lancador')!.click();
     await avancar();
-    expect(elemento.textContent).toContain('assistente virtual do Diarlen Dutra');
+    await digitar('   ');
+    expect(elemento.textContent).toContain('como posso chamar você');
+    expect(elemento.textContent).not.toContain('Prazer');
+  });
 
-    await clicarOpcao('Ganhar massa muscular');
-    await clicarOpcao('Estagnação nos resultados');
-    await clicarOpcao('Treino em casa');
+  it('responde dúvidas no final sem perder o link', async () => {
+    await responderTudo();
+    await clicar('Qual é o investimento?');
 
-    const link = elemento.querySelector<HTMLAnchorElement>('a[href^="https://wa.me/"]')!;
-    const mensagem = decodeURIComponent(link.href);
-    expect(mensagem).toContain('Objetivo: Ganhar massa muscular');
-    expect(mensagem).toContain('O que mais dificulta: Estagnação nos resultados');
-    expect(mensagem).toContain('Onde treino: Treino em casa');
+    expect(elemento.textContent).toContain('R$ 250,00 por mês');
+    expect(link()).not.toBeNull();
   });
 
   it('recomeçar limpa a conversa e volta à primeira pergunta', async () => {
-    elemento.querySelector<HTMLButtonElement>('.lancador')!.click();
+    await responderTudo();
+    elemento.querySelector<HTMLButtonElement>('[aria-label="Recomeçar conversa"]')!.click();
     await avancar();
-    await clicarOpcao('Melhorar definição');
-    await clicarOpcao('Estagnação nos resultados');
-    await clicarOpcao('Treino em academia');
-    await clicarOpcao('Recomeçar conversa');
 
-    expect(elemento.textContent).not.toContain('Suas respostas já estão prontas');
-    expect(elemento.querySelector('a[href^="https://wa.me/"]')).toBeNull();
-    expect(elemento.textContent).toContain('Qual é o seu principal objetivo');
+    expect(elemento.textContent).not.toContain('Resumo para o Diarlen');
+    expect(link()).toBeNull();
+    expect(elemento.textContent).toContain('como posso chamar você');
   });
 });

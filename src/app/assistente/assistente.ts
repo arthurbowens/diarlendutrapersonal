@@ -1,24 +1,53 @@
 import { afterRenderEffect, Component, computed, ElementRef, signal, viewChild } from '@angular/core';
 import { linkWhatsapp } from '../contato';
 
-type Etapa = 'objetivo' | 'dificuldade' | 'local' | 'fim';
+type Etapa = 'nome' | 'objetivo' | 'experiencia' | 'dias' | 'dificuldade' | 'limitacao' | 'fim';
+type Respostas = Partial<Record<Etapa, string>>;
 type Mensagem = { id: number; autor: 'assistente' | 'visitante'; texto: string };
 
+const SEQUENCIA: Etapa[] = ['nome', 'objetivo', 'experiencia', 'dias', 'dificuldade', 'limitacao', 'fim'];
+
 const OPCOES: Record<Etapa, string[]> = {
-  objetivo: ['Ganhar massa muscular', 'Reduzir gordura corporal', 'Melhorar definição', 'Aumentar força e desempenho'],
-  dificuldade: ['Estagnação nos resultados', 'Não consigo criar uma rotina', 'Quero treinar com mais técnica', 'Falta um planejamento personalizado'],
-  local: ['Treino em academia', 'Treino em casa', 'Academia e em casa'],
+  nome: [],
+  objetivo: ['Ganhar massa muscular', 'Reduzir gordura corporal', 'Melhorar a definição', 'Aumentar força e desempenho'],
+  experiencia: ['Nunca treinei', 'Estou voltando depois de uma pausa', 'Treino há menos de 1 ano', 'Treino há mais de 1 ano'],
+  dias: ['Até 3 dias', '4 dias', '5 dias', '6 dias ou mais'],
+  dificuldade: ['Parei de ver evolução', 'Não consigo manter a constância', 'Tenho dúvidas sobre a técnica', 'Treino sem um planejamento'],
+  limitacao: ['Não tenho', 'Prefiro falar direto com o Diarlen'],
   fim: [],
 };
 
-const PERGUNTAS: Record<Etapa, string> = {
-  objetivo: 'Olá! Que bom ter você aqui. 👋\n\nSou o assistente virtual do Diarlen Dutra. Em 3 perguntas rápidas, preparo o seu contato com ele.\n\n1️⃣ Qual é o seu principal objetivo no momento?',
-  dificuldade: 'Boa escolha! 👊\n\n2️⃣ O que mais está travando você hoje?',
-  local: '3️⃣ Onde você treina hoje?',
-  fim: 'Pronto! 🔥\n\nNo Método DD Performance, seu protocolo é individual, feito pelo Diarlen, com suporte pelo aplicativo, por R$ 250,00 mensais.\n\nSuas respostas já estão prontas: é só tocar abaixo e enviar para ele no WhatsApp.',
+const CAMPO_TEXTO: Partial<Record<Etapa, string>> = {
+  nome: 'Digite seu nome',
+  objetivo: 'Ou descreva o seu objetivo',
+  dificuldade: 'Ou conte com suas palavras',
+  limitacao: 'Ou descreva a lesão ou limitação',
 };
 
-const PROXIMA: Record<Etapa, Etapa> = { objetivo: 'dificuldade', dificuldade: 'local', local: 'fim', fim: 'fim' };
+const PERGUNTAS: Record<Exclude<Etapa, 'fim'>, (respostas: Respostas) => string> = {
+  nome: () =>
+    'Olá! Sou a assistente virtual do Diarlen Dutra.\n\nVou fazer algumas perguntas rápidas para ele já saber como ajudar você. Leva menos de um minuto.\n\nPara começar, como posso chamar você?',
+  objetivo: ({ nome }) => `Prazer, ${nome}!\n\nQual é o seu principal objetivo hoje?`,
+  experiencia: () => 'Ótimo. E qual é a sua experiência com musculação?',
+  dias: () => 'Entendido. Quantos dias por semana você consegue treinar, de forma realista?',
+  dificuldade: () => 'Certo. O que mais tem atrapalhado a sua evolução até aqui?',
+  limitacao: () => 'Última pergunta: você tem alguma lesão, dor ou limitação que o Diarlen deva considerar?',
+};
+
+const DUVIDAS = [
+  {
+    pergunta: 'Como funciona o acompanhamento?',
+    resposta: 'Depois de contratar, você responde a um questionário e o Diarlen desenvolve o seu protocolo, liberado no aplicativo.\n\nPor lá você acessa o treino, assiste aos vídeos dos exercícios e envia suas dúvidas. A cada três meses, vocês fazem uma reunião on-line para analisar a evolução.',
+  },
+  {
+    pergunta: 'O que está incluído?',
+    resposta: 'Treinamento 100% personalizado, acesso ao aplicativo, vídeos dos exercícios, suporte, acompanhamento da evolução, ajustes periódicos e reunião on-line a cada três meses.',
+  },
+  {
+    pergunta: 'Qual é o investimento?',
+    resposta: 'O Método DD Performance custa R$ 250,00 por mês.',
+  },
+];
 
 @Component({
   selector: 'app-assistente',
@@ -29,21 +58,40 @@ const PROXIMA: Record<Etapa, Etapa> = { objetivo: 'dificuldade', dificuldade: 'l
 export class Assistente {
   protected readonly aberto = signal(false);
   protected readonly digitando = signal(false);
-  protected readonly etapa = signal<Etapa>('objetivo');
+  protected readonly etapa = signal<Etapa>('nome');
   protected readonly mensagens = signal<Mensagem[]>([]);
   protected readonly textoLivre = signal('');
-  private readonly respostas = signal<Partial<Record<Etapa, string>>>({});
+  protected readonly respostas = signal<Respostas>({});
+  private readonly duvidasVistas = signal<string[]>([]);
 
   protected readonly opcoes = computed(() => OPCOES[this.etapa()]);
-  protected readonly aceitaTexto = computed(() => this.etapa() === 'objetivo' || this.etapa() === 'dificuldade');
+  protected readonly placeholder = computed(() => CAMPO_TEXTO[this.etapa()]);
+  protected readonly duvidas = computed(() => DUVIDAS.filter((duvida) => !this.duvidasVistas().includes(duvida.pergunta)));
+  protected readonly totalPerguntas = SEQUENCIA.length - 1;
+  protected readonly numeroPergunta = computed(() => SEQUENCIA.indexOf(this.etapa()) + 1);
+  protected readonly progresso = computed(() => {
+    const respondidas = Object.keys(this.respostas()).length;
+    return (respondidas / this.totalPerguntas) * 100;
+  });
+  protected readonly resumo = computed(() => {
+    const { objetivo, experiencia, dias, dificuldade, limitacao } = this.respostas();
+    return [
+      { rotulo: 'Objetivo', valor: objetivo },
+      { rotulo: 'Experiência', valor: experiencia },
+      { rotulo: 'Dias por semana', valor: dias },
+      { rotulo: 'Maior dificuldade', valor: dificuldade },
+      { rotulo: 'Lesão ou limitação', valor: limitacao },
+    ];
+  });
   protected readonly linkFinal = computed(() => {
-    const { objetivo, dificuldade, local } = this.respostas();
+    const linhas = this.resumo().map(({ rotulo, valor }) => `${rotulo}: ${valor}`);
     return linkWhatsapp(
-      `Olá, Diarlen! Falei com o assistente do site e quero saber mais sobre o Método DD Performance.\n\nObjetivo: ${objetivo}\nO que mais dificulta: ${dificuldade}\nOnde treino: ${local}`,
+      `Olá, Diarlen! Meu nome é ${this.respostas().nome}. Falei com a assistente do site e quero começar no Método DD Performance.\n\n${linhas.join('\n')}`,
     );
   });
 
   private readonly rolagem = viewChild<ElementRef<HTMLElement>>('rolagem');
+  private readonly campo = viewChild<ElementRef<HTMLInputElement>>('campo');
   private proximoId = 1;
   private iniciado = false;
 
@@ -55,6 +103,9 @@ export class Assistente {
       if (elemento) {
         elemento.scrollTop = elemento.scrollHeight;
       }
+      if (this.etapa() === 'nome' && !this.digitando()) {
+        this.campo()?.nativeElement.focus();
+      }
     });
   }
 
@@ -62,7 +113,7 @@ export class Assistente {
     this.aberto.update((aberto) => !aberto);
     if (!this.iniciado) {
       this.iniciado = true;
-      this.perguntar('objetivo');
+      this.perguntar('nome');
     }
   }
 
@@ -74,7 +125,7 @@ export class Assistente {
     this.adicionar('visitante', resposta);
     this.respostas.update((respostas) => ({ ...respostas, [etapa]: resposta }));
     this.textoLivre.set('');
-    this.perguntar(PROXIMA[etapa]);
+    this.perguntar(SEQUENCIA[SEQUENCIA.indexOf(etapa) + 1]);
   }
 
   protected enviarTexto(evento: Event) {
@@ -85,18 +136,40 @@ export class Assistente {
     }
   }
 
-  protected recomecar() {
-    this.mensagens.set([]);
-    this.respostas.set({});
-    this.perguntar('objetivo');
+  protected async tirarDuvida(duvida: (typeof DUVIDAS)[number]) {
+    if (this.digitando()) {
+      return;
+    }
+    this.adicionar('visitante', duvida.pergunta);
+    this.duvidasVistas.update((vistas) => [...vistas, duvida.pergunta]);
+    await this.falar(duvida.resposta);
   }
 
-  private async perguntar(etapa: Etapa) {
+  protected recomecar() {
+    if (this.digitando()) {
+      return;
+    }
+    this.mensagens.set([]);
+    this.respostas.set({});
+    this.duvidasVistas.set([]);
+    this.textoLivre.set('');
+    this.perguntar('nome');
+  }
+
+  private perguntar(etapa: Etapa) {
     this.etapa.set(etapa);
+    return this.falar(
+      etapa === 'fim'
+        ? `Obrigada, ${this.respostas().nome}! Já organizei suas respostas para o Diarlen.\n\nÉ só enviar pelo WhatsApp para falar com ele sobre o seu protocolo.`
+        : PERGUNTAS[etapa](this.respostas()),
+    );
+  }
+
+  private async falar(texto: string) {
     this.digitando.set(true);
-    await new Promise((resolver) => setTimeout(resolver, 700 + Math.min(PERGUNTAS[etapa].length * 8, 900)));
+    await new Promise((resolver) => setTimeout(resolver, 500 + Math.min(texto.length * 5, 900)));
     this.digitando.set(false);
-    this.adicionar('assistente', PERGUNTAS[etapa]);
+    this.adicionar('assistente', texto);
   }
 
   private adicionar(autor: Mensagem['autor'], texto: string) {
